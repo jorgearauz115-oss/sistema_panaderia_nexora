@@ -1,0 +1,174 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #14243A; /* Midnight Navy */
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  user-select: none;
+}
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+
+.login-card {
+  display: flex;
+  width: 820px;
+  height: 480px;
+  background: #FFFFFF;
+  border-radius: 20px; /* Bordes suaves modernos */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+/* PANEL IZQUIERDO DE MARCA */
+.login-brand-panel {
+  width: 44%;
+  background: linear-gradient(145deg, #14243A 0%, #0b1523 100%);
+  color: #FFFFFF;
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nexora-logo-svg {
+  width: 90px;
+  height: 90px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+}
+
+.login-brand-panel h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #FFFFFF;
+}
+
+.subtitle {
+  margin: 6px 0 0 0;
+  font-size: 11px;
+  color: #22B8A5; /* Nexora Teal */
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+.brand-illustration {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.slogan-text {
+  font-size: 15px;
+  color: #FFFFFF;
+  font-weight: 600;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.version-text {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* PANEL DERECHO DE FORMULARIO */
+.login-form-panel {
+  width: 56%;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #F3F6FA; /* Cloud Gray */
+}
+
+.form-header h2 {
+  margin: 0 0 6px 0;
+  font-size: 26px;
+  color: #14243A;
+  font-weight: 800;
+}
+
+.form-header p {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 24px 0;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #14243A;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.input-group input {
+  padding: 13px 16px;
+  font-size: 14px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px; /* Esquinas redondeadas suaves */
+  background: #FFFFFF;
+  color: #14243A;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.input-group input:focus {
+  border-color: #3478F6; /* Electric Blue */
+  box-shadow: 0 0 0 4px rgba(52, 120, 246, 0.15);
+}
+
+.btn-entrar {
+  background: linear-gradient(135deg, #3478F6 0%, #255ec4 100%);
+  color: #FFFFFF;
+  border: none;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(52, 120, 246, 0.3);
+  transition: all 0.2s ease;
+  margin-top: 6px;
+}
+
+.btn-entrar:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(52, 120, 246, 0.4);
+}
+
+.btn-entrar:active {
+  transform: translateY(0);
+}
+
+.login-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #94a3b8;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 14px;
+}

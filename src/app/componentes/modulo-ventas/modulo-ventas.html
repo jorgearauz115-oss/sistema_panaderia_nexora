@@ -1,0 +1,162 @@
+<div class="nexora-pos-container">
+  <!-- ENCABEZADO -->
+  <header class="pos-header">
+    <div class="brand-box">
+      <span class="logo-mark">◇ NEXORA</span>
+      <span class="badge-sucursal">Sucursal Principal</span>
+    </div>
+    <div class="user-box">
+      <span class="cajero-name">Cajero: Jorge</span>
+      <span class="status-dot">● Online</span>
+      <button class="btn-logout" (click)="cerrarSesion()">Cerrar Sesión</button>
+    </div>
+  </header>
+
+  <!-- PESTAÑAS DE NAVEGACIÓN -->
+  <nav class="pos-tabs">
+    <button class="tab-item active" routerLink="/ventas">Ventas / POS</button>
+    <button class="tab-item" routerLink="/produccion">Producción</button>
+    <button class="tab-item" routerLink="/reservas">Reservas</button>
+  </nav>
+
+  <!-- CUERPO PRINCIPAL -->
+  <main class="pos-main">
+    <!-- CATÁLOGO DE PRODUCTOS -->
+    <section class="pos-catalog-section">
+      <div class="search-bar-container">
+        <input 
+          type="text" 
+          placeholder="Buscar producto..." 
+          [(ngModel)]="filtroBusqueda"
+        />
+      </div>
+
+      <div class="products-grid">
+        <button 
+          class="prod-card" 
+          *ngFor="let prod of getProductosFiltrados()"
+          (click)="agregarAlCarrito(prod)"
+        >
+          <span class="p-name">{{ prod.nombre }}</span>
+          <span class="p-price">Bs. {{ prod.precio.toFixed(2) }}</span>
+          <span class="p-stock">Stock: {{ prod.stock }}</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- TICKET DE VENTA LATERAL LIMPIO (SIN BARRAS HORIZONTALES) -->
+    <aside class="pos-ticket-section">
+      <div class="ticket-header-area">
+        <h2 class="ticket-header-title">Ticket de Venta</h2>
+        <span class="items-badge">{{ carrito.length }} Ítems</span>
+      </div>
+
+      <div class="ticket-items-list">
+        <div class="ticket-row" *ngFor="let item of carrito">
+          <div class="item-desc">
+            <span class="p-name">{{ item.producto.nombre }}</span>
+            <span class="item-sub">Bs. {{ item.producto.precio.toFixed(2) }} c/u</span>
+          </div>
+          
+          <!-- Controles de cantidad -->
+          <div class="qty-controls-modern">
+            <button class="btn-qty-mod" (click)="cambiarCantidad(item, -1)">-</button>
+            <input 
+              type="number" 
+              class="qty-input-manual" 
+              [value]="item.cantidad" 
+              (change)="actualizarCantidadManual(item, $event)" 
+              min="1"
+            />
+            <button class="btn-qty-mod" (click)="cambiarCantidad(item, 1)">+</button>
+          </div>
+
+          <span class="item-total">Bs. {{ (item.producto.precio * item.cantidad).toFixed(2) }}</span>
+        </div>
+
+        <div *ngIf="carrito.length === 0" class="empty-cart-msg">
+          Ticket vacío. Seleccione productos del catálogo.
+        </div>
+      </div>
+
+      <!-- PIE DEL TICKET: SOLO TOTAL Y BOTÓN COBRAR LIMPIO -->
+      <div class="ticket-footer-clean">
+        <div class="total-display-clean">
+          <div class="total-text-group">
+            <small>TOTAL A PAGAR</small>
+            <div class="amount-clean">Bs. {{ calcularTotal().toFixed(2) }}</div>
+          </div>
+          <button class="btn-pay-clean" (click)="abrirModalCobro()">
+            ⚡ COBRAR
+          </button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- MODAL FLOTANTE DE PAGO (SE ABRE AL PRESIONAR COBRAR) -->
+  <div class="modal-overlay" *ngIf="mostrarModalCobro">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Finalizar Cobro</h3>
+        <button class="btn-close-modal" (click)="cerrarModalCobro()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-total-info">
+          <span>Total a Cancelar:</span>
+          <span class="modal-total-price">Bs. {{ calcularTotal().toFixed(2) }}</span>
+        </div>
+
+        <!-- Selección de Método de Pago -->
+        <div class="payment-methods-group">
+          <label class="modal-label">Seleccione Método de Pago:</label>
+          <div class="pay-options-grid">
+            <button 
+              type="button" 
+              [class.active]="metodoPago === 'efectivo'" 
+              (click)="metodoPago = 'efectivo'"
+            >💵 Efectivo</button>
+            <button 
+              type="button" 
+              [class.active]="metodoPago === 'qr'" 
+              (click)="metodoPago = 'qr'"
+            >📱 QR</button>
+            <button 
+              type="button" 
+              [class.active]="metodoPago === 'transferencia'" 
+              (click)="metodoPago = 'transferencia'"
+            >🏦 Transferencia</button>
+          </div>
+        </div>
+
+        <!-- Sección exclusiva para Efectivo (Monto y Cambio) -->
+        <div class="cash-box-modal" *ngIf="metodoPago === 'efectivo'">
+          <div class="cash-row">
+            <span>Monto Recibido (Bs):</span>
+            <input 
+              type="number" 
+              [(ngModel)]="montoRecibido" 
+              class="cash-input-lg"
+              autofocus
+            />
+          </div>
+          <div class="change-row">
+            <span>Cambio a Devolver:</span>
+            <span class="change-val">Bs. {{ calcularCambio().toFixed(2) }}</span>
+          </div>
+        </div>
+
+        <!-- Mensaje Informativo para QR / Transferencia -->
+        <div class="info-box-qr" *ngIf="metodoPago !== 'efectivo'">
+          <p>Generando pasarela de pago digital por <strong>{{ metodoPago.toUpperCase() }}</strong>. Verifique el comprobante antes de confirmar.</p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="cerrarModalCobro()">Cancelar</button>
+        <button class="btn-confirm-pay" (click)="procesarCobroFinal()">Confirmar y Cobrar</button>
+      </div>
+    </div>
+  </div>
+</div>

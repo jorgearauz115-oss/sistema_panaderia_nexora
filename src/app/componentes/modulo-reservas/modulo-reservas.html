@@ -1,0 +1,87 @@
+<div class="nexora-pos-container">
+  <!-- ENCABEZADO -->
+  <header class="pos-header">
+    <div class="brand-box">
+      <span class="logo-mark">◇ NEXORA</span>
+      <span class="badge-sucursal">Módulo de Reservas y Pedidos</span>
+    </div>
+    <div class="user-box">
+      <span class="cajero-name">Mostrador / Admin</span>
+      <span class="status-dot">● Sincronizado</span>
+    </div>
+  </header>
+
+  <!-- PESTAÑAS DE NAVEGACIÓN -->
+  <nav class="pos-tabs">
+    <button class="tab-item" routerLink="/ventas">🛒 Ventas POS</button>
+    <button class="tab-item" routerLink="/produccion">🥖 Producción (Tandas)</button>
+    <button class="tab-item active" routerLink="/reservas">📋 Reservas</button>
+  </nav>
+
+  <!-- CUERPO PRINCIPAL -->
+  <main class="pos-main-produccion">
+    
+    <!-- FORMULARIO PARA NUEVA RESERVA -->
+    <section class="prod-form-card">
+      <h3>📅 Registrar Nueva Reserva / Pedido Futuro</h3>
+      <p class="subtitle-hint">Las reservas se agendan sin afectar el stock actual hasta el momento de su entrega.</p>
+      
+      <div class="form-grid-prod" style="grid-template-columns: 1fr 1fr 1fr auto;">
+        <div class="input-group">
+          <label>Cliente / Contacto</label>
+          <input type="text" class="input-field" placeholder="Nombre del cliente" #clienteInput />
+        </div>
+
+        <div class="input-group">
+          <label>Producto a Reservar</label>
+          <select class="input-field" #prodReserva>
+            <option>Torta de Chocolate (Especial)</option>
+            <option>Empanadas x50 (Evento)</option>
+            <option>Pan Dulce Artesanal</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Fecha y Hora de Entrega</label>
+          <input type="datetime-local" class="input-field" #fechaInput />
+        </div>
+
+        <div class="input-group-btn">
+          <button class="btn-registrar-tanda" (click)="guardarReserva(clienteInput.value, fechaInput.value)">
+            💾 Guardar Reserva
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- LISTADO DE RESERVAS ACTIVAS -->
+    <section class="prod-history-card">
+      <div class="history-header">
+        <h3>📋 Reservas Pendientes de Entrega</h3>
+        <span class="total-producido-badge" style="background: #fef3c7; color: #b45309;">{{ reservas.length }} Pedidos en Agenda</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="sicar-table">
+          <thead>
+            <tr>
+              <th>CLIENTE</th>
+              <th>PRODUCTO</th>
+              <th style="text-align: center;">ENTREGA PROGRAMADA</th>
+              <th style="text-align: center;">ESTADO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of reservas">
+              <td><strong>{{ r.cliente }}</strong></td>
+              <td>{{ r.producto }}</td>
+              <td style="text-align: center;">{{ r.fecha }}</td>
+              <td style="text-align: center;"><span class="badge-ok" style="background: #fef3c7; color: #b45309;">{{ r.estado }}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>

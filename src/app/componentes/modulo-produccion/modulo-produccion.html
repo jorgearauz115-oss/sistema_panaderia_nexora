@@ -1,0 +1,90 @@
+<div class="nexora-pos-container">
+  <!-- ENCABEZADO -->
+  <header class="pos-header">
+    <div class="brand-box">
+      <span class="logo-mark">◇ NEXORA</span>
+      <span class="badge-sucursal">Módulo de Producción (Tandas)</span>
+    </div>
+    <div class="user-box">
+      <span class="cajero-name">Horno / Producción</span>
+      <span class="status-dot">● Activo</span>
+    </div>
+  </header>
+
+  <!-- PESTAÑAS DE NAVEGACIÓN -->
+  <nav class="pos-tabs">
+    <button class="tab-item" routerLink="/ventas">🛒 Ventas POS</button>
+    <button class="tab-item active" routerLink="/produccion">🥖 Producción (Tandas)</button>
+    <button class="tab-item" routerLink="/reservas">📋 Reservas</button>
+  </nav>
+
+  <!-- CUERPO PRINCIPAL -->
+  <main class="pos-main-produccion">
+    
+    <!-- FORMULARIO DE NUEVA TANDA -->
+    <section class="prod-form-card">
+      <h3>🔥 Registrar Nueva Tanda de Producción</h3>
+      <p class="subtitle-hint">Al registrar una tanda, el stock se incrementará automáticamente para el sistema de ventas.</p>
+      
+      <div class="form-grid-prod">
+        <div class="input-group">
+          <label>Seleccionar Producto</label>
+          <select class="input-field" #prodSelect>
+            <option value="1">Pan de Batalla</option>
+            <option value="2">Marraqueta</option>
+            <option value="3">Pan Dulce</option>
+            <option value="4">Empanada Queso</option>
+            <option value="5">Bizcocho</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Cantidad Producida (Unidades)</label>
+          <input type="number" class="input-field" value="50" #cantInput />
+        </div>
+
+        <div class="input-group-btn">
+          <button class="btn-registrar-tanda" (click)="registrarTanda(prodSelect.value, cantInput.value)">
+            ➕ Registrar Tanda e Incrementar Stock
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTORIAL DE TANDAS -->
+    <section class="prod-history-card">
+      <div class="history-header">
+        <h3>📋 Tandas Registradas Hoy</h3>
+        <span class="total-producido-badge">Total Producido: 250 un.</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="sicar-table">
+          <thead>
+            <tr>
+              <th>HORA</th>
+              <th>PRODUCTO</th>
+              <th style="text-align: center;">CANTIDAD</th>
+              <th style="text-align: center;">ESTADO DE STOCK</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>08:30 AM</td>
+              <td><strong>Pan de Batalla</strong></td>
+              <td style="text-align: center; color: #0284c7; font-weight: bold;">+100 un.</td>
+              <td style="text-align: center;"><span class="badge-ok">Sincronizado</span></td>
+            </tr>
+            <tr>
+              <td>09:15 AM</td>
+              <td><strong>Marraqueta</strong></td>
+              <td style="text-align: center; color: #0284c7; font-weight: bold;">+150 un.</td>
+              <td style="text-align: center;"><span class="badge-ok">Sincronizado</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
